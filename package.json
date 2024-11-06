@@ -1,0 +1,23 @@
+{
+  "name": "socket-uno",
+  "version": "0.0.1",
+  "description": "UNO game on javascript",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eperezcosano/Uno.git"
+  },
+  "author": "Izan Pérez Cosano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eperezcosano/Uno/issues"
+  },
+  "homepage": "https://github.com/eperezcosano/Uno#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^2.5.0"
+  }
+}
