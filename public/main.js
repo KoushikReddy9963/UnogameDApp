@@ -12,15 +12,19 @@ let hand = [];
 let turn;
 let playerName;
 
-async function init() {
-  if (typeof window.ethereum !== 'undefined') {
+async function init() 
+{
+  if (typeof window.ethereum !== 'undefined') 
+  {
     const web3 = new Web3(window.ethereum);
     await ethereum.request({ method: 'eth_requestAccounts' });
     const accounts = await web3.eth.getAccounts();
     const balance = await web3.eth.getBalance(accounts[0]);
     const formattedBalance = web3.utils.fromWei(balance, 'ether');
+    console.log(accounts, balance, formattedBalance);
     alert(`Address: ${accounts[0]}\nBalance: ${formattedBalance} ETH`);
-  } else {
+  }
+  else {
     alert("Please install MetaMask to play the game.");
     return;
   }
