@@ -1,9 +1,3 @@
-//const contractInstance = require("./bundle");
-//const contractInstance = require("./bundle");
-
-//const { provider, provider } = require("../bundle");
-
-//let contractInstance
 const socket = io({ autoConnect: false });
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -17,19 +11,16 @@ const back = new Image();
 let room;
 let hand = [];
 let turn;
-// let playerName;
 
 let web3;
-let contractInstance//import { contractInstance } from "./bundle";;
+let contractInstance
 let playerName;
 
-// Contract details
 const ownerPrivateKey = '0xb9433accc50d9f7fd37f0c43540555b86f9f8b3cea1dcff836933c64874a1d1c';
 const ownerAddress = '0x734e4CAA42E28D70DB1c2195d8e42dF7F7DB60CF';
 const unoGameAddress = '0xA496618F60dc9f2d67A84571de97daEF6552698f';
-SEPOLIA_RPC_URL='https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647'
-// Verify the derived owner address
- 
+SEPOLIA_RPC_URL = 'https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647'
+
 const unoGameABI = [
   {
     "inputs": [
@@ -230,8 +221,8 @@ const unoGameABI = [
     "type": "function"
   }
 ];
-const provider = new Web3.providers.HttpProvider(SEPOLIA_RPC_URL); 
-const ownerWeb3 = new Web3(provider); 
+const provider = new Web3.providers.HttpProvider(SEPOLIA_RPC_URL);
+const ownerWeb3 = new Web3(provider);
 const ownerContract = new ownerWeb3.eth.Contract(unoGameABI, unoGameAddress);
 
 
@@ -239,8 +230,6 @@ const ownerContract = new ownerWeb3.eth.Contract(unoGameABI, unoGameAddress);
 const derivedOwnerAddress = ownerWeb3.eth.accounts.privateKeyToAccount(ownerPrivateKey).address;
 console.log("Derived Owner Address:", derivedOwnerAddress)
 
-
-//unoGameContract = new web3.eth.Contract(unoGameABI, unoGameAddress);
 
 //let addresses=[]
 async function init() {
@@ -257,14 +246,10 @@ async function init() {
 
   playerName = getCookie('playerName') || promptPlayerName();
   setCookie('playerName', playerName, 24 * 3600);
-  /*let Name=playerName
-  let Address="   "
-  setCookie('playerInfo', { playerAddress: Address, playerName:Name }, 24 * 3600);
-  let playerInfo=getCookie('playerInfo')
-  console.log(playerInfo.playerAddress,playerInfo.playerName)*/
+
 
   await connectToMetaMask();
-  
+
 }
 
 function promptPlayerName() {
@@ -276,39 +261,38 @@ async function connectToMetaMask() {
   if (typeof window.ethereum !== 'undefined') {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
     web3 = new Web3(window.ethereum);
-   
+
     const accounts = await web3.eth.getAccounts();
     const playerAddress = accounts[0];
     const balanceWei = await web3.eth.getBalance(playerAddress);
     const balanceEther = web3.utils.fromWei(balanceWei, 'ether');
     console.log(`Player's balance: ${balanceEther} ETH`);
     playerName = getCookie('playerName') || promptPlayerName();
-     
-    // Update cookie with playerAddress and playerName
-    let Name=playerName
+
+    let Name = playerName
     console.log(Name)
-    let Address=playerAddress
+    let Address = playerAddress
     console.log(Address)
-    let Info={  Address, Name }
-   // addPlayer(playerName,Address)
+    let Info = { Address, Name }
+    // addPlayer(playerName,Address)
     console.log(Info)
     setCookie('playerInfo', Info, 24 * 3600);
     document.cookie = 'playerInfo=' + JSON.stringify(Info);
-    let playerInfo=getCookie('playerInfo')
+    let playerInfo = getCookie('playerInfo')
     playerInfo = JSON.parse(playerInfo);
     console.log(playerInfo)
-    
+
     console.log()
-    console.log(playerInfo.Address,playerInfo.Name)
-  
+    console.log(playerInfo.Address, playerInfo.Name)
+
     //setCookie('playerName', playerName, 24 * 3600);  // Store for 24 hours
     //setPlayerInfo(playerName, playerAddress)
     //printAllPlayers
-   contractInstance = new web3.eth.Contract(unoGameABI, unoGameAddress);
+    contractInstance = new web3.eth.Contract(unoGameABI, unoGameAddress);
 
     try {
       await initializeGame(balanceEther, playerAddress, balanceWei);
-       
+
     } catch (error) {
       console.error("Error initializing the game:", error);
     }
@@ -320,23 +304,11 @@ async function connectToMetaMask() {
 async function initializeGame(balanceEther, playerAddress, balanceWei) {
   const platformFeePercentage = await contractInstance.methods.platformFeePercentage().call();
   console.log("Platform Fee Percentage:", platformFeePercentage);
-  g=await ownerContract.methods.owner().call()
+  g = await ownerContract.methods.owner().call()
   console.log(g)
-  /*let winnerAddress="0x734e4CAA42E28D70DB1c2195d8e42dF7F7DB60CF"
-  try{
-  const gasEstimate = await ownerContract.methods.setWinner(winnerAddress).estimateGas();
-  console.log(gasEstimate)}
-  catch(err){
-    console.log(err)
-  }
-  try{
-    const gasEstimate = await ownerContract.methods.setWinner(winnerAddress).estimateGas({from:derivedOwnerAddress});
-    console.log(gasEstimate)}
-    catch(err){
-      console.log(err)
-    }*/
-  g=await contractInstance.methods.owner().call()
-  console.log(g)
+
+  // g=await contractInstance.methods.owner().call()
+  // console.log(g)
   const bettingOpen = await contractInstance.methods.bettingOpen().call();
 
   if (bettingOpen) {
@@ -347,16 +319,15 @@ async function initializeGame(balanceEther, playerAddress, balanceWei) {
       alert('Insufficient balance for the bet amount.');
       return;
     }
-    let playerInfo=getCookie('playerInfo')
+    let playerInfo = getCookie('playerInfo')
     playerInfo = JSON.parse(playerInfo);
-    var g=await contractInstance.methods.bets(playerInfo.Address).call()
+    var g = await contractInstance.methods.bets(playerInfo.Address).call()
     console.log(g);
 
-    if(g > 0)
-    {
+    if (g > 0) {
       socket.connect();
     }
-   
+
 
     try {
       const result = await contractInstance.methods.placeBet().send({ from: playerAddress, value: betAmount });
@@ -372,35 +343,8 @@ async function initializeGame(balanceEther, playerAddress, balanceWei) {
     alert('Betting is closed at the moment. Please try again later.');
   }
 }
-//===============
-// Function to add player data
-function addPlayer(Name, Address) {
-  fetch('http://localhost:3000/api/players', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ Name, Address }),
-  })
-  .then(response => response.json())
-  .then(data => console.log('Player added:', data))
-  .catch(error => console.error('Error:', error));
-}
 
-// Function to get a player's address by name
-function getPlayerAddress(playerName) {
-  fetch(`http://localhost:3000/api/players/${playerName}`)
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Player not found');
-      }
-      return response.json();
-  })
-  .then(data => console.log('Player address:', data.Address))
-  .catch(error => console.error('Error:', error));
-}
 
-//==================
 
 function setCookie(name, value, seconds) {
   let date = new Date();
@@ -412,7 +356,7 @@ function setCookie(name, value, seconds) {
 function setPlayerInfo(playerName, playerAddress) {
   let playerInfo = { playerName: playerName, playerAddress: playerAddress };
   let existingPlayers = getCookie('players');
-  
+
   if (existingPlayers) {
     existingPlayers = JSON.parse(existingPlayers);
   } else {
@@ -420,7 +364,7 @@ function setPlayerInfo(playerName, playerAddress) {
   }
 
   existingPlayers.push(playerInfo);
-  setCookie('players', JSON.stringify(existingPlayers), 24 * 3600);  // Store for 24 hours
+  setCookie('players', JSON.stringify(existingPlayers), 24 * 3600);
 }
 
 
@@ -467,9 +411,6 @@ socket.on('responseRoom', function ([name, people, maxPeople]) {
   if (name !== 'error') {
     room = name;
     console.log('<< Room Response', name);
-    // ctx.fillText(name, 0, 10);
-    // ctx.drawImage(back, canvas.width-cdWidth/2-60, canvas.height/2-cdHeight/4, cdWidth/2, cdHeight/2);
-    // ctx.fillText(playerName, 100, 390);
     dialog(name + ': Waiting for Players (' + people + '/' + maxPeople + ')');
   } else {
     socket.disconnect();
@@ -496,8 +437,6 @@ socket.on('countDown', function (countDown) {
 });
 
 socket.on('playerDisconnect', function () {
-  //ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //socket.emit('leaveRoom', room);
   console.log('<< Player disconnected', room);
 });
 
@@ -514,7 +453,6 @@ function onMouseClick(e) {
   if (Y >= 400 && Y <= 580 && X >= initCard && X <= lastCard) {
     for (let i = 0, pos = initCard; i < hand.length; i++, pos += canvas.width / (2 + (hand.length - 1))) {
       if (X >= pos && X <= pos + canvas.width / (2 + (hand.length - 1))) {
-        // debugArea(pos, pos+canvas.width/(2+(hand.length-1)), 400, 580);
         socket.emit('playCard', [hand[i], room]);
         return;
       }
@@ -540,7 +478,6 @@ socket.on('haveCard', function (nums) {
   hand = nums;
   ctx.clearRect(0, 400, canvas.width, canvas.height);
 
-  // Draw each card in hand
   for (let i = 0; i < hand.length; i++) {
     ctx.drawImage(
       cards,
@@ -556,7 +493,6 @@ socket.on('haveCard', function (nums) {
     console.log('<< Have card', hand[i]);
   }
 
-  // Check if the player has no cards left
   if (hand.length === 0) {
     declareWinner();
   }
@@ -564,28 +500,27 @@ socket.on('haveCard', function (nums) {
 
 async function declareWinner() {
   // Display the winner on the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'green';
   ctx.font = 'bold 30px Arial';
   ctx.textAlign = 'center';
   ctx.fillText(playerName + ' wins!', canvas.width / 2, canvas.height / 2);
-  let playerInfo=getCookie('playerInfo')
+  let playerInfo = getCookie('playerInfo')
   playerInfo = JSON.parse(playerInfo);
-  if(playerName===playerInfo.Name){
+  if (playerName === playerInfo.Name) {
     console.log("Mama");
-   await callOnlyOwnerFunction(playerInfo.Address)
+    await callOnlyOwnerFunction(playerInfo.Address)
     console.log("Mama 2");
   }
-  else{
+  else {
     console.log("Ramesh");
   }
   // Send a message to all players in the room
   //setwinnner()
- // g=  getPlayerAddress(playerName)
+  // g=  getPlayerAddress(playerName)
   socket.emit('gameOver', { winner: playerName, room: room });
 }
 
-// Handle game over on all clients
 socket.on('gameOver', function (data) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'green';
@@ -674,38 +609,7 @@ function arrow() {
   ctx.lineTo(x + 15, y + 10);
   ctx.lineTo(x, y + 30);
   ctx.fill();
-
 }
-/*
-async  function setwinnner(){
-try {
-  // Assuming you already have an instance of the smart contract deployed on the network.
-  //const contractInstance = new web3.eth.Contract(unoGameABI,unoGameAddress);
-
-  // Here we assume you have the owner address and the necessary private key for signing
-  const gasPrice = web3.utils.toWei('20', 'gwei'); // Set gas price in wei
-  const gasLimit = 200000; // Set gas limit based on the function requirements
-
-  // Sending the transaction to close betting
-  const tx = {
-    from: ownerAddress,
-    to: unoGameAddress,
-    gas: gasLimit,
-    gasPrice: gasPrice,
-    data: methods.setWinner(playerAddress).encodeABI()
-  };
-
-  const signedTx = await web3.eth.accounts.signTransaction(tx, ownerPrivateKey);
-
-  // Send the signed transaction to the network
- const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-  console.log('Betting closed on the contract: ', receipt);
-  return receipt; // Resolving the promise once the betting is closed
-} catch (err) {
-  console.error('Error closing betting on the contract:', err);
-  throw err; // Throwing the error to be handled by the caller function
-}}*/
-
 
 async function signAndSendTransactionWithOwner(data, gasLimit) {
   const tx = {
@@ -718,12 +622,11 @@ async function signAndSendTransactionWithOwner(data, gasLimit) {
   console.log("sign end mama");
   return ownerWeb3.eth.sendSignedTransaction(signedTx.rawTransaction);
 }
-// Function to call onlyOwner functions
 async function callOnlyOwnerFunction(winnerAddress) {
 
   console.log("i am in call mama");
   const data = ownerContract.methods.setWinner(winnerAddress).encodeABI();
-  const gasEstimate = await ownerContract.methods.setWinner(winnerAddress).estimateGas({from:derivedOwnerAddress});
+  const gasEstimate = await ownerContract.methods.setWinner(winnerAddress).estimateGas({ from: derivedOwnerAddress });
 
   try {
     console.log("mama in call");

@@ -7,37 +7,16 @@ const port = process.env.PORT || 3000;
 const contractInstance = require('./bundle');
 let players = [];
 
-// POST endpoint to add a player's data to the array
-app.post('/api/players', (req, res) => {
-    const { Name, Address } = req.body;
-    if (!Name || !Address) {
-        return res.status(400).json({ error: 'Name and Address are required' });
-    }
-    players.push({ Name, Address });
-    console.log(players);
-    res.status(201).json({ message: 'Player added successfully' });
-});
-
-
-
-// GET endpoint to get the address by player name
-app.get('/api/players/:name', (req, res) => {
-    const playerName = req.params.name;
-    const player = players.find(p => p.Name === playerName);
-    if (!player) {
-        return res.status(404).json({ error: 'Player not found' });
-    }
-    res.json({ Address: player.Address });
-});
-
 async function Gamefee() {
-  try{
-  const platformFeePercentage = await contractInstance.methods.platformFeePercentage().call();
-  
-  console.log("Platform Fee Percentage:", platformFeePercentage);}
-  catch(error){
+  try {
+    const platformFeePercentage = await contractInstance.methods.platformFeePercentage().call();
+
+    console.log("Platform Fee Percentage:", platformFeePercentage);
+  }
+  catch (error) {
     console.log(error)
-  }}
+  }
+}
 Gamefee()
 app.use(express.static(__dirname + '/public'));
 io.on('connection', onConnection);
@@ -53,15 +32,15 @@ const { Web3 } = require('web3');
 
 
 app.use(express.json());
-SEPOLIA_RPC_URL='https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647'
-PRIVATE_KEY='0xb9433accc50d9f7fd37f0c43540555b86f9f8b3cea1dcff836933c64874a1d1c'
-PLATFORM_WALLET='0x734e4CAA42E28D70DB1c2195d8e42dF7F7DB60CF'
+SEPOLIA_RPC_URL = 'https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647'
+PRIVATE_KEY = '0xb9433accc50d9f7fd37f0c43540555b86f9f8b3cea1dcff836933c64874a1d1c'
+PLATFORM_WALLET = '0x734e4CAA42E28D70DB1c2195d8e42dF7F7DB60CF'
 
-CONTRACT_ADDRESS= '0xd829EE05A9A89CD078d97Aa6385c8C999Ce6A9C3'
+CONTRACT_ADDRESS = '0xd829EE05A9A89CD078d97Aa6385c8C999Ce6A9C3'
 // Initialize Web3 and the contract
 const web3 = new Web3(SEPOLIA_RPC_URL);
 
-provider="https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647"
+provider = "https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647"
 const unoGameABI = [
   {
     "inputs": [
@@ -261,9 +240,8 @@ const unoGameABI = [
     "stateMutability": "view",
     "type": "function"
   }
-]; 
+];
 
-// Replace all Wild, Draw2, and Draw4 cards with random number cards
 deck = deck.map(num => {
   const type = cardType(num);
   if (type === 'Wild' || type === 'Draw2' || type === 'Draw4') {
