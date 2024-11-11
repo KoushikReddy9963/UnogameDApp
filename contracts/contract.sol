@@ -33,25 +33,18 @@ contract UnoGame {
     function openBetting() external onlyOwner {
         bettingOpen = true;
     }
-/*
-    function closeBetting() external onlyOwner {
-        bettingOpen = false;
-        emit GameStarted();
-    }
-*/
     function placeBet() external payable bettingIsOpen {
         require(msg.value > 0, "Bet amount must be greater than zero");
         require(bets[msg.sender] == 0, "Player has already placed a bet");
 
         players.push(msg.sender);
         bets[msg.sender] = msg.value;
-        playerCount += 1; // Increment player count
+        playerCount += 1; 
 
         emit BetPlaced(msg.sender, msg.value);
     }
 
     function setWinner(address _winner) external onlyOwner {
-        //require(!bettingOpen, "Betting must be closed to set a winner");
         require(bets[_winner] > 0, "Winner must be a valid player");
 
         winner = _winner;
@@ -73,7 +66,7 @@ contract UnoGame {
             bets[players[i]] = 0;
         }
         delete players;
-        playerCount = 0; // Reset player count
+        playerCount = 0; 
         winner = address(0);
     }
 }
