@@ -4,20 +4,8 @@ const bodyParser = require('body-parser');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
-const contractInstance = require('./bundle');
 let players = [];
 
-async function Gamefee() {
-  try {
-    const platformFeePercentage = await contractInstance.methods.platformFeePercentage().call();
-
-    console.log("Platform Fee Percentage:", platformFeePercentage);
-  }
-  catch (error) {
-    console.log(error)
-  }
-}
-Gamefee()
 app.use(express.static(__dirname + '/public'));
 io.on('connection', onConnection);
 http.listen(port, () => console.log('listening on port ' + port));
@@ -27,220 +15,9 @@ const maxPeople = 10;
 
 let deck = Array.from({ length: 112 }, (_, i) => i);
 require('dotenv').config();
-//const express = require('express');
-const { Web3 } = require('web3');
-
 
 app.use(express.json());
-SEPOLIA_RPC_URL = 'https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647'
-PRIVATE_KEY = '0xb9433accc50d9f7fd37f0c43540555b86f9f8b3cea1dcff836933c64874a1d1c'
-PLATFORM_WALLET = '0x734e4CAA42E28D70DB1c2195d8e42dF7F7DB60CF'
 
-CONTRACT_ADDRESS = '0xd829EE05A9A89CD078d97Aa6385c8C999Ce6A9C3'
-// Initialize Web3 and the contract
-const web3 = new Web3(SEPOLIA_RPC_URL);
-
-provider = "https://sepolia.infura.io/v3/be8d335d6a7f47df9d23572a28233647"
-const unoGameABI = [
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_platformFeePercentage",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "player",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "BetPlaced",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "winner",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "reward",
-        "type": "uint256"
-      }
-    ],
-    "name": "GameEnded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [],
-    "name": "GameStarted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "PlatformFeePaid",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "bets",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bettingOpen",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "openBetting",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "placeBet",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "platformFeePercentage",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "playerCount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "players",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_winner",
-        "type": "address"
-      }
-    ],
-    "name": "setWinner",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "winner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
-];
 
 deck = deck.map(num => {
   const type = cardType(num);
@@ -249,7 +26,7 @@ deck = deck.map(num => {
   }
   return num;
 });
-console.log(cardType(98));
+
 
 let data = [];
 for (let i = 1; i <= numRooms; i++) {
