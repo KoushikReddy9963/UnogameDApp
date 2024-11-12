@@ -237,23 +237,23 @@ function startGame(name) {
     data[name]['turn'] = (dealer + 1) % people;
     data[name]['reverse'] = 0;
 
-    if (cardType(cardOnBoard) === 'Draw2') {
-      card = parseInt(newDeck.shift());
-      data[name]['players'][(data[name]['turn'])]['hand'].push(card);
-      console.log('>> ' + name + ': Player ' + (dealer + 1 % people) +
-        ' draws ' + cardType(card) + ' ' + cardColor(card));
-      card = parseInt(newDeck.shift());
-      data[name]['players'][(data[name]['turn'])]['hand'].push(card);
-      console.log('>> ' + name + ': Player ' + (dealer + 1 % people) +
-        ' draws ' + cardType(card) + ' ' + cardColor(card));
+    // if (cardType(cardOnBoard) === 'Draw2') {
+    //   card = parseInt(newDeck.shift());
+    //   data[name]['players'][(data[name]['turn'])]['hand'].push(card);
+    //   console.log('>> ' + name + ': Player ' + (dealer + 1 % people) +
+    //     ' draws ' + cardType(card) + ' ' + cardColor(card));
+    //   card = parseInt(newDeck.shift());
+    //   data[name]['players'][(data[name]['turn'])]['hand'].push(card);
+    //   console.log('>> ' + name + ': Player ' + (dealer + 1 % people) +
+    //     ' draws ' + cardType(card) + ' ' + cardColor(card));
 
-      data[name]['turn'] = (dealer + 2) % people;
-    } else if (cardType(cardOnBoard) === 'Reverse') {
-      data[name]['turn'] = Math.abs(dealer - 1) % people;
-      data[name]['reverse'] = 1;
-    } else if (cardType(cardOnBoard) === 'Skip') {
-      data[name]['turn'] = (dealer + 2) % people;
-    }
+    //   data[name]['turn'] = (dealer + 2) % people;
+    // } else if (cardType(cardOnBoard) === 'Reverse') {
+    //   data[name]['turn'] = Math.abs(dealer - 1) % people;
+    //   data[name]['reverse'] = 1;
+    // } else if (cardType(cardOnBoard) === 'Skip') {
+    //   data[name]['turn'] = (dealer + 2) % people;
+    // }
 
     console.log('>> ' + name + ': Turn is for ' + data[name]['players'][(data[name]['turn'])]['name']);
     console.log('>> ' + name + ': Reverse (' + (!!data[name]['reverse']) + ')');
@@ -396,13 +396,14 @@ function onConnection(socket) {
           skip += 1;
         } else if (cardType(res[0]) === 'Reverse') {
           data[res[1]]['reverse'] = (data[res[1]]['reverse'] + 1) % 2;
-        } else if (cardType(res[0]) === 'Draw2') {
-          skip += 1;
-          // Handle Draw2 card logic here
-        } else if (cardType(res[0]) === 'Draw4') {
-          skip += 1;
-          // Handle Draw4 card logic here
-        }
+        } 
+        // else if (cardType(res[0]) === 'Draw2') {
+        //   skip += 1;
+        //   // Handle Draw2 card logic here
+        // } else if (cardType(res[0]) === 'Draw4') {
+        //   skip += 1;
+        //   // Handle Draw4 card logic here
+        // }
 
         // Calculate the next player's turn
         numPlayer = Math.abs(numPlayer + (-1) ** data[res[1]]['reverse'] * (1 + skip)) % data[res[1]]['people'];
