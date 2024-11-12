@@ -414,7 +414,7 @@ socket.on('responseRoom', function ([name, people, maxPeople]) {
     dialog(name + ': Waiting for Players (' + people + '/' + maxPeople + ')');
   } else {
     socket.disconnect();
-    alert('Rooms are full! Try again later');
+    alert('Game is Ongoing, Please Try Later');
   }
 });
 

@@ -10,7 +10,7 @@ app.use(express.static(__dirname + '/public'));
 io.on('connection', onConnection);
 http.listen(port, () => console.log('listening on port ' + port));
 
-const numRooms = 5;
+const numRooms = 1;
 const maxPeople = 10;
 
 let deck = Array.from({ length: 112 }, (_, i) => i);
