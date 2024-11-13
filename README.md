@@ -1,13 +1,18 @@
-# Sample Hardhat Project
+# Multiplayer UNO DApp
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+A decentralized multiplayer UNO game with betting, a winner selection system, and a platform fee. This DApp allows players to join UNO games, place bets, and compete to win rewards. Built on the Sepolia Test Network using Infura and Hardhat.
 
-Try running some of the following tasks:
+## Features
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
+- **Multiplayer UNO Game**: Play UNO with friends or other players in real-time.
+- **Betting System**: Players place bets, and the winner takes the pot (minus a platform fee).
+- **Winner System**: Automated winner selection at the end of each game.
+- **Platform Fee**: A small fee is deducted from the pot as a platform fee.
+
+## Tech Stack
+
+- **Backend**: Node.js, Express
+- **Frontend**: HTML, CSS
+- **Real-time Communication**: Socket.IO
+- **Blockchain Development**: Hardhat, Sepolia Test Network, Infura
+
