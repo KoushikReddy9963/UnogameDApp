@@ -13,7 +13,7 @@ let hand = [];
 let turn;
 
 let web3;
-let contractInstance
+let contractInstance;
 let playerName;
 
 const ownerPrivateKey = '0xb9433accc50d9f7fd37f0c43540555b86f9f8b3cea1dcff836933c64874a1d1c';
