@@ -1,21 +1,21 @@
 {
   "name": "socket-uno",
   "version": "0.0.1",
-  "description": "UNO game on javascript",
+  "description": "Multiplayer Uno Game",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eperezcosano/Uno.git"
+    "url": "https://github.com/KoushikReddy9963/UnogameDApp"
   },
-  "author": "Izan Pérez Cosano",
+  "author": "Koushik Reddy",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/eperezcosano/Uno/issues"
+    "url": "https://github.com/KoushikReddy9963/UnogameDApp"
   },
-  "homepage": "https://github.com/eperezcosano/Uno#readme",
+  "homepage": "https://github.com/KoushikReddy9963/UnogameDApp",
   "dependencies": {
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
