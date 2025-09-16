@@ -2,7 +2,7 @@
 
 A decentralized multiplayer UNO game with betting, winner selection system, and platform fee. This DApp allows players to join UNO games, place bets, and compete to win rewards. Built on the Sepolia Test Network using Infura and Hardhat.
 
-## 🚀 Game Flow
+##  Game Flow
 
 ```mermaid
 flowchart TD
@@ -30,17 +30,17 @@ flowchart TD
     R --> S[Game Complete]
 ```
 
-## ✨ Features
+##  Features
 
-- 🎯 **Multiplayer UNO Game**: Play UNO with friends or other players in real-time
-- 💰 **Betting System**: Players place bets, and the winner takes the pot (minus platform fee)
-- 🏆 **Automated Winner Selection**: Smart contract determines the winner automatically
-- 🔒 **Platform Fee**: Small fee deducted from the pot for platform maintenance
-- 🌐 **Real-time Gameplay**: Instant updates using Socket.IO
-- 🔗 **Blockchain Integration**: Secure betting and payouts on Sepolia testnet
-- 👛 **MetaMask Integration**: Easy wallet connection and transaction signing
+-  **Multiplayer UNO Game**: Play UNO with friends or other players in real-time
+-  **Betting System**: Players place bets, and the winner takes the pot (minus platform fee)
+-  **Automated Winner Selection**: Smart contract determines the winner automatically
+-  **Platform Fee**: Small fee deducted from the pot for platform maintenance
+-  **Real-time Gameplay**: Instant updates using Socket.IO
+-  **Blockchain Integration**: Secure betting and payouts on Sepolia testnet
+-  **MetaMask Integration**: Easy wallet connection and transaction signing
 
-## 🛠️ Tech Stack
+## 🛠Tech Stack
 
 ### Frontend
 - **HTML5/CSS3**: Core web technologies
@@ -62,7 +62,7 @@ flowchart TD
 - **Infura**: Blockchain node provider
 - **OpenZeppelin**: Security-audited contract libraries
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before running this project, make sure you have:
 
@@ -72,7 +72,7 @@ Before running this project, make sure you have:
 - Sepolia testnet ETH (for testing)
 - MongoDB (local or cloud)
 
-## ⚙️ Installation
+## Installation
 
 1. **Clone the repository**
    ```bash
@@ -112,7 +112,7 @@ Before running this project, make sure you have:
    npm start
    ```
 
-## 🎮 How to Play
+##  How to Play
 
 1. **Connect Wallet**: Click "Connect Wallet" to connect your MetaMask
 2. **Join Game**: Enter a game room or create a new one
@@ -121,7 +121,7 @@ Before running this project, make sure you have:
 5. **Play UNO**: Follow standard UNO rules
 6. **Win Rewards**: Winner gets the pot minus platform fee
 
-## 🔧 Smart Contract Functions
+##  Smart Contract Functions
 
 ### Core Functions
 - `createGame(uint256 betAmount)`: Create a new game with betting
@@ -137,7 +137,7 @@ Before running this project, make sure you have:
 - Automatic fee calculation
 - Secure fund handling
 
-## 🔒 Security Features
+##  Security Features
 
 - **Reentrancy Protection**: Using OpenZeppelin's ReentrancyGuard
 - **Access Control**: Role-based permissions
@@ -145,7 +145,7 @@ Before running this project, make sure you have:
 - **Safe Math**: Overflow/underflow protection
 - **Pausable Contract**: Emergency stop functionality
 
-## 🧪 Testing
+##  Testing
 
 Run the test suite:
 ```bash
@@ -159,7 +159,7 @@ npx hardhat test test/UnoGame.test.js
 npm run test:coverage
 ```
 
-## 📊 Project Structure
+##  Project Structure
 
 ```
 UnogameDApp/
@@ -181,54 +181,10 @@ UnogameDApp/
 └── README.md              # This file
 ```
 
-## 🌐 Deployment
-
-### Frontend Deployment (Vercel)
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-### Backend Deployment (Heroku)
-```bash
-# Create Heroku app
-heroku create your-app-name
-
-# Deploy
-git push heroku main
-```
-
 ## 🔗 Contract Addresses (Sepolia)
 
 - **UnoGame Contract**: `[Contract Address Here]`
 - **Verified on Etherscan**: `[Etherscan Link Here]`
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For support, email koushikreddy9963@example.com or create an issue in this repository.
-
-## 🙏 Acknowledgments
-
-- OpenZeppelin for secure smart contract libraries
-- Hardhat team for the excellent development framework
-- Socket.IO for real-time communication
-- The Ethereum community for continuous innovation
-
----
 
 **Built with ❤️ by [KoushikReddy9963](https://github.com/KoushikReddy9963)**
